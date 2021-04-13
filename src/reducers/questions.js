@@ -1,5 +1,4 @@
-import { RECIEVE_QUESTIONS } from '../actions/questions'
-import { ADD_ANSWER } from '../actions/questions'
+import { RECIEVE_QUESTIONS, ADD_ANSWER, ADD_NEW_QUESTION } from '../actions/questions'
 
 export default function questions(state={}, action) {
   switch (action.type) {
@@ -9,29 +8,24 @@ export default function questions(state={}, action) {
         ...action.questions
       }
     case ADD_ANSWER:
-    console.log(action, 'this is the action ')
-    console.log(action.authedUser, 'action.authedUser')
+      const { authedUser, qid, answer } = action
       return {
         ...state,
-        users: {
-          ...state.users,
-          [action.authedUser]: {
-            ...state.users[action.authedUser],
-            answers: {
-              ...state.users[action.authedUser.answers],
-              [action.qid]: action.answer
+        [qid]: {
+            ...state[qid],
+            [answer]: {
+              ...state[qid][answer],
+              votes: state[qid][answer].votes.concat(authedUser)
             }
-          }
-        },
-        questions: {
-          ...state.questions,
-          [action.qid]: {
-              ...state.questions[action.qid],
-              [action.answer]: {
-                ...state.questions[action.qid][action.answer],
-                votes: state[action.qid][action.answer].votes.push(action.authedId)
-              }
-          }
+        }
+      }
+    case ADD_NEW_QUESTION:
+      const { question } = action
+      return {
+        ...state,
+        [question.id]: {
+          ...state[question.id],
+          ...question
         }
       }
     default:

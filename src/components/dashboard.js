@@ -11,6 +11,7 @@ class Dashboard extends Component {
     const { questions, authedUser, users } = this.props
 
     if (authedUser === null) {
+      alert("Please login to view Dashboard")
       return <Redirect to="/login" />
     }
 
@@ -32,7 +33,7 @@ class Dashboard extends Component {
             unanswered.map((id) => {
               return <UnansweredQuestion key={id} id={id} />
             })
-            : <div>You have responeded to all question</div>
+            : <div className="alert alert-primary">You have responeded to all question</div>
           }
         </Tab>
         <Tab eventKey="answered" title="Answered Questions">
@@ -41,7 +42,7 @@ class Dashboard extends Component {
             answered.map((id) => {
               return <AnsweredQuestion key={id} id={id} />
             })
-            : <div>You have not responeded to any question yet</div>
+            : <div className="alert alert-primary">You have not responeded to any question yet</div>
           }
         </Tab>
       </Tabs>

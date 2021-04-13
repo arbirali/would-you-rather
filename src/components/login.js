@@ -25,7 +25,7 @@ class Login extends Component {
 
     const { users, authedUser } = this.props
     if(authedUser !== null) {
-      return <Redirect to="/dashboard" />
+      return <Redirect to="/" />
     }
     let options = ''
     if(Object.keys(users).length === 0) {

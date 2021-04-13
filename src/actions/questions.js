@@ -1,5 +1,6 @@
 export const RECIEVE_QUESTIONS = 'RECIEVE_QUESTIONS'
 export const ADD_ANSWER = 'ADD_ANSWER'
+export const ADD_NEW_QUESTION = 'ADD_NEW_QUESTION'
 
 export function getQuestions (questions) {
   return {
@@ -14,5 +15,12 @@ export function addAnswer ({ authedUser, qid, answer }) {
     authedUser,
     answer,
     qid
+  }
+}
+
+export function addNewQuestion (question) {
+  return {
+    type: ADD_NEW_QUESTION,
+    question
   }
 }

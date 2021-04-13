@@ -1,9 +1,9 @@
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
-import { getUsers } from './users'
-import { getQuestions, addAnswer } from './questions'
+import { getUsers, addUserAnswer, addNewUserQuestion } from './users'
+import { getQuestions, addAnswer, addNewQuestion } from './questions'
 
-import { _getQuestions, _getUsers, _saveQuestionAnswer } from '../helpers/_Data'
+import { _getQuestions, _getUsers, _saveQuestionAnswer, _saveQuestion } from '../helpers/_Data'
 
 export function handleInitialData (dispatch) {
     return (dispatch) => {
@@ -19,12 +19,28 @@ export function handleInitialData (dispatch) {
     }
 }
 
-export function saveQuestionAnswer (info) {
-    console.log(info, 'info')
-    return (dispatch) => {
+export function saveQuestionAnswer ({ qid, answer, history }) {
+    return (dispatch, getState) => {
+        const {authedUser} = getState()
         dispatch(showLoading())
-        _saveQuestionAnswer(info)
-        dispatch(addAnswer(info))
-        dispatch(hideLoading())
+        return _saveQuestionAnswer({authedUser, qid, answer }).then(()=> {
+            dispatch(addAnswer( {authedUser, qid, answer} ))
+            dispatch(addUserAnswer( {authedUser, qid, answer} ))
+            dispatch(hideLoading())
+        })
+    }
+}
+
+export function handleNewQuestion ({ optionOneText, optionTwoText }) {
+    return (dispatch, getState) => {
+        const {authedUser} = getState()
+        const author = authedUser
+        dispatch(showLoading())
+        return _saveQuestion({optionOneText, optionTwoText, author}).then((data)=> {
+            console.log(data, "data")
+            dispatch(addNewQuestion(data))
+            dispatch(addNewUserQuestion(data))
+            dispatch(hideLoading())
+        })
     }
 }

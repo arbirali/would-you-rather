@@ -1,21 +1,35 @@
 import { Component } from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { handleNewQuestion } from '../actions'
 
 
 class NewQuestion extends Component {
 
   state = {
     optionOneText: '',
-    optionTwoText: ''
+    optionTwoText: '',
+    redirect: false
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { dispatch } = this.props
+    const { optionOneText, optionTwoText } = this.state
+    new Promise((res, rej)=> {
+      dispatch(handleNewQuestion({ optionOneText, optionTwoText }))
+      setTimeout(() => res('success'), 1000);
+    }).then(()=> {
+      this.setState({
+        redirect: true
+      })
+    })
   }
 
   handleChange = (event) => {
     event.preventDefault();
     this.setState({
-      [event.target.name]: [event.target.value]
+      [event.target.name]: event.target.value
     })
   }
 
@@ -25,6 +39,17 @@ class NewQuestion extends Component {
   }
 
   render () {
+    const { redirect } = this.state
+    const { authedUser } = this.props
+
+    if (authedUser === null) {
+      alert("Please login to Add Question")
+      return <Redirect to="/login" />
+    }
+
+    if (redirect) {
+      return <Redirect to="/" />
+    }
     return (
       <div>
         <div className="row justify-content-center">
@@ -39,7 +64,6 @@ class NewQuestion extends Component {
                   <textarea
                     className="form-control"
                     name="optionOneText"
-                    id=""
                     cols="10"
                     rows="3"
                     onChange={this.handleChange}
@@ -49,7 +73,6 @@ class NewQuestion extends Component {
                   <textarea
                     className="form-control mb-4"
                     name="optionTwoText"
-                    id=""
                     cols="10"
                     rows="3"
                     onChange={this.handleChange}
@@ -66,4 +89,10 @@ class NewQuestion extends Component {
   }
 }
 
-export default NewQuestion;
+function mapStatetoProps ({authedUser}) {
+  return {
+    authedUser
+  }
+}
+
+export default connect(mapStatetoProps)(NewQuestion);

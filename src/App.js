@@ -1,9 +1,10 @@
-import { Component } from 'react'
+import { Component, Fragement } from 'react'
 import { connect } from 'react-redux'
 import LoadingBar from 'react-redux-loading-bar'
 
 import {
   BrowserRouter as Router,
+  Redirect,
   Switch,
   Route
 } from "react-router-dom";
@@ -12,6 +13,7 @@ import { handleInitialData } from './actions'
 import Login from './components/login'
 import Header from './components/header'
 import Dashboard from './components/dashboard'
+import LeaderBoard from './components/leaderBoard'
 import NewQuestion from './components/newQuestion'
 import QuestionPoll from './components/questionPoll'
 import QuestionSubmit from './components/questionSubmit'
@@ -33,17 +35,17 @@ class App extends Component {
             <div className="row justify-content-center">
               <div className="col-8">
                 <Switch>
-                  <Route exact path='/login'>
+                  <Route path='/login'>
                     <Login />
                   </Route>
-                  <Route path='/dashboard'>
+                  <Route exact path='/'>
                     <Dashboard />
                   </Route>
                   <Route path='/add'>
                     <NewQuestion />
                   </Route>
                   <Route path='/leader-board'>
-                    Leader Board
+                    <LeaderBoard />
                   </Route>
                   <Route
                     path='/submit-question/:id'

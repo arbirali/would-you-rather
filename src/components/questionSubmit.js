@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { saveQuestionAnswer } from '../actions'
@@ -7,15 +7,23 @@ import { saveQuestionAnswer } from '../actions'
 class QuestionSubmit extends Component {
 
   state = {
-      selectedOption: ''
-  };
+      selectedOption: '',
+      redirect: false
+  }
 
   handleSubmit = (event) => {
     event.preventDefault()
     const { authedUser, qid, history } = this.props
     const answer = this.state.selectedOption
-    this.props.dispatch(saveQuestionAnswer({authedUser, qid, answer }))
-    history.push("/dashboard")
+
+    new Promise((res, rej)=> {
+      this.props.dispatch(saveQuestionAnswer({authedUser, qid, answer, history }))
+      setTimeout(() => res('success'), 1000);
+    }).then(()=> {
+      this.setState({
+        redirect: true
+      })
+    })
   }
 
   onChangeValue = (event) => {
@@ -25,10 +33,14 @@ class QuestionSubmit extends Component {
   }
 
   render () {
-    const { question, users } = this.props
+    const { redirect } = this.state
+    const { question, users, qid } = this.props
+    if (redirect) {
+      return <Redirect to={`/question/${qid}`} />
+    }
     return (
       <div>
-        <Link to="/dashboard"><span className="back-arrow">&#8678;</span> Go Back</Link>
+        <Link to="/"><span className="back-arrow">&#8678;</span> Go Back</Link>
         <div className="question-post">
           <div className="image-block">
             <img src={`../assets/images/${users[question.author].avatarURL}`} alt={users[question.author].name} />
@@ -73,9 +85,9 @@ function mapStatetoProps ({questions, authedUser, users}, ownProps) {
   const qid = ownProps.match.params.id
   const question = questions[qid]
   return {
+    users,
     question,
     authedUser,
-    users,
     qid
   }
 }

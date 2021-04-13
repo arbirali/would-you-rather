@@ -1,15 +1,21 @@
 import { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 class QuestionPoll extends Component {
 
   render () {
-    const { questions, users, authedUser, id } = this.props
-    const question = questions[id]
+    const { question, users, authedUser, qid } = this.props
+    const optionOnePercent = Math.round(question.optionOne.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100)
+    const optionTwoPercent = Math.round(question.optionTwo.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100)
+
+    if (authedUser === null) {
+      return <Redirect to="/login" />
+    }
+
     return (
-      <div className="">
-        <Link to="/dashboard"><span className="back-arrow">&#8678;</span> Go Back</Link>
+      <div>
+        <Link to="/"><span className="back-arrow">&#8678;</span> Go Back</Link>
         <div className="question-post">
           <div className="image-block">
             <img src={`../assets/images/${users[question.author].avatarURL}`} alt={users[question.author].name} />
@@ -18,14 +24,14 @@ class QuestionPoll extends Component {
             <span><i>{users[question.author].name}</i> asks: </span>
             <h2>Would you rather?</h2>
             {
-              (users[authedUser].answers[id] === 'optionOne')?
+              (users[authedUser].answers[qid] === 'optionOne')?
               (
                 <div className="alert alert-success">
                   <small>Your Answer</small>
                   <span className="text-1">{question.optionOne.text}</span>
                   <div className="progress">
-                    <div className="progress-bar" role="progressbar" style={{width: question.optionOne.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100 + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                      {`${question.optionOne.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100}`}%
+                    <div className="progress-bar" role="progressbar" style={{width: optionOnePercent + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      {optionOnePercent}%
                     </div>
                   </div>
                 </div>
@@ -33,8 +39,8 @@ class QuestionPoll extends Component {
                 <div>
                   <span className="text-1">{question.optionOne.text}</span>
                   <div className="progress">
-                    <div className="progress-bar" role="progressbar" style={{width: question.optionOne.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100 + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                      {`${question.optionOne.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100}`}%
+                    <div className="progress-bar" role="progressbar" style={{width: optionOnePercent + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      {optionOnePercent}%
                     </div>
                   </div>
                 </div>
@@ -42,14 +48,14 @@ class QuestionPoll extends Component {
             }
             <span className="text-or">Or</span>
             {
-              (users[authedUser].answers[id] === 'optionTwo')?
+              (users[authedUser].answers[qid] === 'optionTwo')?
               (
                 <div className="alert alert-success">
                   <small>Your Answer</small>
                   <span className="text-2">{question.optionTwo.text}</span>
                   <div className="progress">
-                    <div className="progress-bar" role="progressbar" style={{width: question.optionTwo.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100 + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                      {`${question.optionTwo.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100}`}%
+                    <div className="progress-bar" role="progressbar" style={{width: optionTwoPercent + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      {optionTwoPercent}%
                     </div>
                   </div>
                 </div>
@@ -57,8 +63,8 @@ class QuestionPoll extends Component {
                 <div>
                   <span className="text-2">{question.optionTwo.text}</span>
                   <div className="progress">
-                    <div className="progress-bar" role="progressbar" style={{width: question.optionTwo.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100 + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                      {`${question.optionTwo.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100}`}%
+                    <div className="progress-bar" role="progressbar" style={{width: optionTwoPercent + '%'}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      {optionTwoPercent}%
                     </div>
                   </div>
                 </div>
@@ -72,11 +78,13 @@ class QuestionPoll extends Component {
 }
 
 function mapStatetoProps ({questions, authedUser, users}, ownProps) {
+  const qid = ownProps.match.params.id
+  const question = questions[qid]
   return {
-    questions,
     authedUser,
+    question,
     users,
-    id: ownProps.match.params.id
+    qid
   }
 }
 

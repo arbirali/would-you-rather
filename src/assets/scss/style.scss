@@ -78,6 +78,7 @@
         justify-content: center;
         background: #f1f1f1;
         width: 200px;
+        padding: 10px;
         display: flex;
         border-radius: 10px;
         margin-right: 20px;
@@ -110,6 +111,68 @@
         .text-2 {
             margin-bottom: 20px;
         }
+    }
+}
+
+.leader-post {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+
+    .image-block {
+        align-items: center;
+        justify-content: center;
+        background: #f1f1f1;
+        width: 200px;
+        padding: 10px;
+        display: flex;
+        border-radius: 10px;
+        margin-right: 20px;
+        flex: 0 0 200px;
+
+        img {
+            width: auto;
+            height: 150px;
+        }
+    }
+
+    .text-block {
+        padding-right: 20px;
+
+        span {
+            display: block;
+            overflow: hidden;
+
+            .number {
+                float: right;
+            }
+
+            &.answered {
+                border-bottom: 1px solid #ccc;
+            }
+
+            &.created {
+
+            }
+        }
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    .total {
+        padding: 3px;
+        font-size: 33px;
+        min-width: 52px;
+        border-radius: 50px;
+        display: inline-block;
+        background: rgba($primary, .2);
+        font-weight: 600;
+        color: $primary;
     }
 }
 

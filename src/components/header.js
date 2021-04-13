@@ -18,7 +18,7 @@ class Header extends Component {
         <nav className='navbar'>
           <div className='container-fluid'>
             <ul className='main-nav'>
-              <li><NavLink activeClassName='active' to='/dashboard'>Home</NavLink></li>
+              <li><NavLink activeClassName='active' exact to='/'>Home</NavLink></li>
               <li><NavLink activeClassName='active' to='/add'>New Question</NavLink></li>
               <li><NavLink activeClassName='active' to='/leader-board'>Leader Board</NavLink></li>
             </ul>
