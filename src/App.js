@@ -1,10 +1,9 @@
-import { Component, Fragement } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
 import LoadingBar from 'react-redux-loading-bar'
 
 import {
   BrowserRouter as Router,
-  Redirect,
   Switch,
   Route
 } from "react-router-dom";

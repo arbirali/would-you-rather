@@ -44,7 +44,6 @@ function  LeaderBoard (props) {
 }
 
 function mapStatetoProps ({users}) {
-  const sortedUsers = []
   let usersList = {}
   Object.keys(users).forEach((user)=> {
     usersList[user] = Object.keys(users[user].answers).length + users[user].questions.length
