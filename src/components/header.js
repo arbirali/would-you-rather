@@ -11,7 +11,7 @@ class Header extends Component {
   }
 
   render () {
-    let { loggedInUser } = this.props
+    let { authedUser } = this.props
 
     return (
       <header className='header'>
@@ -24,11 +24,11 @@ class Header extends Component {
             </ul>
             <div className='login-section'>
             {
-              (loggedInUser !== null) ?
+              (authedUser !== null) ?
               <div>
-                <span className='text'>Hello, <strong>{loggedInUser.name}</strong></span>
+                <span className='text'>Hello, <strong>{authedUser.name}</strong></span>
                 <span className='image-frame'>
-                  <img height='50' width='100' src={`../assets/images/${loggedInUser.avatarURL}`} alt={loggedInUser.name} />
+                  <img height='50' width='100' src={`../assets/images/${authedUser.avatarURL}`} alt={authedUser.name} />
                 </span>
                 <button className='btn btn-link' onClick={this.handleLogout}>Logout</button>
               </div>
@@ -43,13 +43,9 @@ class Header extends Component {
 }
 
 function mapStateToProps ({users, authedUser}) {
-  let loggedInUser = null
-  if (authedUser !== null) {
-    loggedInUser = users[authedUser]
-  }
   return {
     users,
-    loggedInUser
+    authedUser
   }
 }
 

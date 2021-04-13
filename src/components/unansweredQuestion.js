@@ -26,10 +26,9 @@ class UnansweredQuestion extends Component {
   }
 }
 
-function mapStatetoProps ({questions, authedUser, users}, {id}) {
+function mapStatetoProps ({questions, users}, {id}) {
   return {
     questions,
-    authedUser,
     users,
     id
   }

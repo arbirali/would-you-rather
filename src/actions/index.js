@@ -37,7 +37,6 @@ export function handleNewQuestion ({ optionOneText, optionTwoText }) {
         const author = authedUser
         dispatch(showLoading())
         return _saveQuestion({optionOneText, optionTwoText, author}).then((data)=> {
-            console.log(data, "data")
             dispatch(addNewQuestion(data))
             dispatch(addNewUserQuestion(data))
             dispatch(hideLoading())

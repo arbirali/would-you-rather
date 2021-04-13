@@ -28,9 +28,7 @@ class Login extends Component {
       return <Redirect to="/" />
     }
     let options = ''
-    if(Object.keys(users).length === 0) {
-      return ''
-    } else {
+    if(Object.keys(users).length !== 0) {
       options = Object.keys(users).map(id => <option key={id} value={id}>{users[id].name}</option>)
     }
 

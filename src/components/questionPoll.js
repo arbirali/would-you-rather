@@ -5,9 +5,14 @@ import { connect } from 'react-redux'
 class QuestionPoll extends Component {
 
   render () {
-    const { question, users, authedUser, qid } = this.props
-    const optionOnePercent = Math.round(question.optionOne.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100)
-    const optionTwoPercent = Math.round(question.optionTwo.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100)
+    const {
+        optionOnePercent,
+        optionTwoPercent,
+        authedUser,
+        question,
+        users,
+        qid
+      } = this.props
 
     if (authedUser === null) {
       return <Redirect to="/login" />
@@ -80,7 +85,11 @@ class QuestionPoll extends Component {
 function mapStatetoProps ({questions, authedUser, users}, ownProps) {
   const qid = ownProps.match.params.id
   const question = questions[qid]
+  const optionOnePercent = Math.round(question.optionOne.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100)
+  const optionTwoPercent = Math.round(question.optionTwo.votes.length / (question.optionOne.votes.length + question.optionTwo.votes.length)*100)
   return {
+    optionOnePercent,
+    optionTwoPercent,
     authedUser,
     question,
     users,
