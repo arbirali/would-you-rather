@@ -11,7 +11,7 @@ function  LeaderBoard (props) {
           const answeredQuestions = Object.keys(users[userId].answers).length;
           const createdQuestions = users[userId].questions.length
           return (
-            <div className="leader-post">
+            <div className="leader-post" key={userId}>
               <div className="image-block">
                 <img src={`../assets/images/${users[userId].avatarURL}`} alt={users[userId].name} />
               </div>

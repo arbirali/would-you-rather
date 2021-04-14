@@ -11,7 +11,7 @@ class Header extends Component {
   }
 
   render () {
-    let { authedUser } = this.props
+    let { user, authedUser } = this.props
 
     return (
       <header className='header'>
@@ -26,9 +26,9 @@ class Header extends Component {
             {
               (authedUser !== null) ?
               <div>
-                <span className='text'>Hello, <strong>{authedUser.name}</strong></span>
+                <span className='text'>Hello, <strong>{user.name}</strong></span>
                 <span className='image-frame'>
-                  <img height='50' width='100' src={`../assets/images/${authedUser.avatarURL}`} alt={authedUser.name} />
+                  <img height='50' width='100' src={`../assets/images/${user.avatarURL}`} alt={user.name} />
                 </span>
                 <button className='btn btn-link' onClick={this.handleLogout}>Logout</button>
               </div>
@@ -43,7 +43,9 @@ class Header extends Component {
 }
 
 function mapStateToProps ({users, authedUser}) {
+  const user = users[authedUser]
   return {
+    user,
     users,
     authedUser
   }
